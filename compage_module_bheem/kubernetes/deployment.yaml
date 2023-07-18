@@ -1,0 +1,48 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: compage_module_bheem
+  name: compage_module_bheem
+  labels:
+    app: compage_module_bheem
+spec:
+  selector:
+    matchLabels:
+      app: compage_module_bheem
+  template:
+    metadata:
+      labels:
+        app: compage_module_bheem
+        name: compage_module_bheem
+    spec:
+      containers:
+        - name: compage_module_bheem
+          image: ppinnamani/compage_module/compage_module_bheem
+          imagePullPolicy: Always
+        
+          env:
+            - name: SERVICE_NAME
+              value: "go-app"
+            - name: OTEL_EXPORTER_OTLP_ENDPOINT
+              value: "localhost:4317"
+            - name: INSECURE_MODE
+              value: "true"
+        
+          ports:
+        
+        
+          - containerPort: 1234
+            name: http
+        
+        
+          readinessProbe:
+            tcpSocket:
+              port: http
+            initialDelaySeconds: 5
+            periodSeconds: 15
+          livenessProbe:
+            tcpSocket:
+              port: http
+            initialDelaySeconds: 15
+            periodSeconds: 30
+        
